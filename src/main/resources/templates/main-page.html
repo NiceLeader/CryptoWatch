@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Current Listing</title>
+</head>
+<body>
+
+<div>
+    <h3>Coin</h3>
+    <p th:text="${currentListing.coin}">Coin</p>
+    <h3>Price</h3>
+    <p th:text="${currentListing.price}  + ' $'">Price</p>
+    <h3>Volume</h3>
+    <p th:text="${currentListing.volume}  + ' $'">Volume</p>
+    <h3>Change</h3>
+    <p th:text="${currentListing.change}  + ' $'">Change</p>
+    <h3>MarketCap</h3>
+    <p th:text="${currentListing.marketCap} + ' $'">MarketCap</p>
+</div>
+</body>
+</html>
