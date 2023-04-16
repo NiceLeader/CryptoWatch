@@ -6,7 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.math.BigDecimal;
-
+public final CurrentListingService currentListingService;
+public final LiveListingService liveListingService;
 @Controller
 public class CurrentListingController {
 
