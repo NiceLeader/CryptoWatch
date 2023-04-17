@@ -22,4 +22,6 @@ public class CurrentListing implements Serializable {
         this.change = change;
         this.marketCap = marketCap;
     }
+
+
 }
