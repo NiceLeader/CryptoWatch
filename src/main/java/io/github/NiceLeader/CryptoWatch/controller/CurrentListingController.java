@@ -12,10 +12,11 @@ public class CurrentListingController {
     public final CurrentListingService currentListingService;
     public final LiveListingService liveListingService;
 
-    public CurrentListingController(CurrentListingService currentListingService , LiveListingService liveListingService) {
+    public CurrentListingController(CurrentListingService currentListingService, LiveListingService liveListingService) {
         this.currentListingService = currentListingService;
         this.liveListingService = liveListingService;
     }
+
 
     @GetMapping("/main-page")
     public String getCurrentListing(Model model) {

@@ -1,22 +1,22 @@
 package io.github.NiceLeader.CryptoWatch.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.NiceLeader.CryptoWatch.model.CurrentListing;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriTemplate;
 
 import java.net.URI;
-
+@Service
 public class LiveListingService {
-    public static final String URL = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/map";
+    public static final String URL = "pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?symbol={coin}&convert={fiat}";
 
-    @Value("${api.coinmarketcap.key}")
+    @Value("${coinmarketcap.api.key}")
     private String apiKey;
 
     public final RestTemplate restTemplate;
@@ -27,8 +27,8 @@ public class LiveListingService {
         this.objectMapper =  ObjectMapper;
     }
 
-    public CurrentListing getLiveListing(String coin, String currency) {
-        URI url = new UriTemplate(URL).expand(coin, currency, apiKey);
+    public CurrentListing getLiveListing(String coin, String fiat) {
+        URI url = new UriTemplate(URL).expand(coin, fiat, apiKey);
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
         return convert(response);
     }
@@ -36,7 +36,7 @@ public class LiveListingService {
         try {
             JsonNode root = objectMapper.readTree(response.getBody());
             return new CurrentListing(
-                    root.path("data").path("name").asText(),
+                    root.path("data").path("name").get(0).asText(),
                     root.path("data").path("quote").path("USD").path("price").decimalValue(),
                     root.path("data").path("quote").path("USD").path("volume_24h").decimalValue(),
                     root.path("data").path("quote").path("USD").path("percent_change_24h").decimalValue(),
